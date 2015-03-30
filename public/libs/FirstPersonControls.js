@@ -74,6 +74,19 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	};
 
+
+	var projector = new THREE.Projector();
+	createBullet = function(event){
+		var vector = new THREE.Vector3(
+			renderer.devicePixelRatio * (event.pageX - this.offsetLeft) / this.width * 2 - 1,
+			-renderer.devicePixelRatio * (event.pageY - this.offsetTop) / this.height * 2 + 1,
+			0);
+		console.log(vector)
+		projector.unproject(vector, camera);
+		var raycaster = new THREE.Raycaster(camera.position,vector.sub(camera.position).normalize());
+	}
+
+
 	this.onMouseDown = function ( event ) {
 
 		if ( this.domElement !== document ) {
@@ -89,8 +102,42 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 			switch ( event.button ) {
 
-				case 0: this.moveForward = true; break;
-				case 2: this.moveBackward = true; break;
+				// case 0: this.moveForward = true; break;
+				// case 2: this.moveBackward = true; break;
+				// var lookAtPos = new THREE.Vector3(0,0,-1);
+				// lookAtPos.applyQuaternion( camera.quaternion );
+
+				case 0: 
+				var vector = new THREE.Vector3();
+
+				vector.set(
+				    ( event.clientX / window.innerWidth ) * 2 - 1,
+				    - ( event.clientY / window.innerHeight ) * 2 + 1,
+				    1 );
+
+				vector.unproject( camera );
+
+
+				var dir = vector.sub( camera.position ).normalize();
+
+				var distance = 100;
+				// console.log(distance)
+
+				var pos = camera.position.clone().add( dir.multiplyScalar( distance ) );
+
+				var a = new THREE.Vector3(0,0,-1);
+				a.applyQuaternion( camera.quaternion );
+				// console.log(camera.position);
+				var b = new THREE.Vector3(0,0,-1);
+				b.copy(camera.position);
+				// console.log(b);
+				// var endPos = a.setLength(100).add(b);
+				var endPos = pos;
+				shootingBullet({x:camera.position.x, z:camera.position.z},{x:endPos.x,z:endPos.y},current_color);
+				socket.emit("iShoot",{
+					startPos : {x: b.x, z:b.z},
+					endPos : {x:endPos.x, z:endPos.z}
+				});
 
 			}
 
@@ -127,12 +174,17 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 			this.mouseX = event.pageX - this.viewHalfX;
 			this.mouseY = event.pageY - this.viewHalfY;
 
-		} else {
+		} 
+		// else {
 
-			this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-			this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+		// 	this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+		// 	this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
-		}
+		// }
+
+	};
+
+	this.turnLeft = function(){
 
 	};
 

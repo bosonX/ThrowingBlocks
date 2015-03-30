@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Witch Twitter Fight</title>
+		<title>Call of Duty Clone</title>
 		<style>
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
@@ -9,22 +9,22 @@
 		<script src="libs/FirstPersonControls.js"></script>
 		<script src="libs/CanvasRenderer.js"></script>
 		<script src="libs/Projector.js"></script>
+		<script src="libs/Tween.js"></script>
 		
 		<!-- socket -->
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
-			var socket = io.connect('http://192.168.1.58:9999');
+			var socket = io.connect('http://192.168.1.78:9999');
+			// var socket = io.connect('http://192.168.8.102:9999');
 		</script>
 	</head>
 	<body>
 	<!-- 	<p>HI</p> -->
-	<a href="auth/twitter">twitter login</a>
-	<a href="/tweets">get tweets from a handle</a>
-	<form action="">
-		
-	</form>
-	<script src="js/basic.js"></script>
+<!-- 	<a href="auth/twitter">twitter login</a>
+	<a href="/tweets">get tweets from a handle</a> -->
+
 	<script src="js/client-side-sockets.js"></script>
+	<script src="js/basic.js"></script>
 	<script src="js/renderProcess.js"></script>
 	</body>
 </html>

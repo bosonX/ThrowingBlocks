@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tween</title>
+	<script src="libs/Tween.js"></script>
+</head>
+<body>
+	<script>
+		var position = { x : 0, y: 300 };
+		var target = { x : 400, y: 50 };
+
+		// var position = {z : 0.0};
+		// var target = {z : 300.0};
+		// var tween = new TWEEN.Tween(position).to(target,5000);
+		var tween = new TWEEN.Tween(position).to(target, 2000);
+		tween.onUpdate(function(){
+		    // mesh.position.x = position.x;
+		    // mesh.position.y = position.y;
+		    console.log(position);
+		});
+		tween.easing(TWEEN.Easing.Elastic.InOut)
+		
+		// tween.onUpdate(function(){
+		// 	console.log(this,position);
+		// });
+		// tween.easing(TWEEN.Easing.Linear.None);
+		// tween.start();
+		// tween.update();
+
+		tween.start();
+		TWEEN.update();
+	</script>
+</body>
+</html>

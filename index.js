@@ -68,17 +68,32 @@ app.get('/tweets', function (req, res, next) {
 io.sockets.on('connection',function(client){
 	// console.log(client)
 	client.on('join',function(data){
-		client.name = data;
-		console.log(client.name);
+		console.log(data);
+		client.name = data.name;
+		client.color = data.color;
+		console.log(client.name,client.color);
 	});
 	client.emit('messages',{info: "this is WTF, connection established"});
 	client.on('positionChange',function(data){
-		console.log(data.position)
+		// console.log(data.position)
 		client.broadcast.emit('playerPosition',{
 			name : client.name,
+			color : client.color,
 			position : data.position,
 			lookAtVector : data.lookAtVector
 		});
+	});
+	client.on('iShoot',function(data){
+		// console.log(data);
+		client.broadcast.emit('playerShoot',{
+			startPos : data.startPos,
+			endPos : data.endPos,
+			color : client.color
+		});
+	});
+	client.on('disconnect',function(){
+		client.broadcast.emit('playerLeft',client.name);
+		console.log("client disconnected");
 	});
 });
 
